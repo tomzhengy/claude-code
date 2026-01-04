@@ -27,6 +27,7 @@
       "Grep",
       "LSP",
       "WebFetch",
+      "WebFetch(domain:arxiv.org)",
       "WebSearch",
       "Task",
       "mcp__Github__get_file_contents",
