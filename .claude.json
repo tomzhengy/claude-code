@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(which *)",
+      "Read",
+      "Glob",
+      "Grep",
+      "LSP",
+      "WebFetch",
+      "WebSearch",
+      "mcp__Github__get_file_contents",
+      "mcp__Github__get_issue",
+      "mcp__Github__get_pull_request",
+      "mcp__Github__get_pull_request_files",
+      "mcp__Github__get_pull_request_status",
+      "mcp__Github__get_pull_request_comments",
+      "mcp__Github__get_pull_request_reviews",
+      "mcp__Github__list_commits",
+      "mcp__Github__list_issues",
+      "mcp__Github__list_pull_requests",
+      "mcp__Github__search_repositories",
+      "mcp__Github__search_code",
+      "mcp__Github__search_issues",
+      "mcp__Github__search_users",
+      "mcp__nia__search",
+      "mcp__nia__manage_resource",
+      "mcp__nia__nia_read",
+      "mcp__nia__nia_grep",
+      "mcp__nia__nia_explore",
+      "mcp__nia__nia_research",
+      "mcp__nia__nia_package_search_hybrid",
+      "mcp__nia__context"
+    ]
+  }
+}
