@@ -1,6 +1,6 @@
 # claude-code
 
-my claude code configuration files.
+claude code config files.
 
 ## setup
 
