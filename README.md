@@ -1,6 +1,6 @@
 # claude-code
 
-claude code config files.
+claude code config files. please feel free to add suggestions!! i enjoy optimizing my agent workflows.
 
 ## setup
 
