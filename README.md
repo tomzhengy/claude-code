@@ -9,6 +9,7 @@ symlink these to `~/.claude/`:
 ```bash
 ln -s $(pwd)/config/settings.json ~/.claude/settings.json
 ln -s $(pwd)/config/hooks.json ~/.claude/hooks.json
+ln -s $(pwd)/config/mcp.json ~/.claude/mcp.json
 ln -s $(pwd)/config/CLAUDE.md ~/.claude/CLAUDE.md
 ln -s $(pwd)/agents ~/.claude/agents
 ln -s $(pwd)/rules ~/.claude/rules
@@ -20,7 +21,8 @@ ln -s $(pwd)/rules ~/.claude/rules
 config/
   settings.json   # model, statusline, notification sounds
   hooks.json      # prettier + bun lint on file changes
-  CLAUDE.md       # global instructions (lowercase commits/comments)
+  mcp.json        # mcp server configuration
+  CLAUDE.md       # global instructions (style, principles, machines)
 
 agents/
   code-reviewer.md    # proactive code review
