@@ -14,9 +14,13 @@ claude code config files. please feel free to add suggestions!! i enjoy optimizi
 
 ## setup
 
-symlink these to `~/.claude/`:
+from the `claude-code-config` directory, symlink these to `~/.claude/`:
 
 ```bash
+# remove old symlinks if they exist
+rm -f ~/.claude/settings.json ~/.claude/hooks.json ~/.claude/mcp.json ~/.claude/CLAUDE.md ~/.claude/agents ~/.claude/rules
+
+# create new symlinks
 ln -s $(pwd)/config/settings.json ~/.claude/settings.json
 ln -s $(pwd)/config/hooks.json ~/.claude/hooks.json
 ln -s $(pwd)/config/mcp.json ~/.claude/mcp.json
