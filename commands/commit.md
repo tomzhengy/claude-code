@@ -1,6 +1,7 @@
 ---
 allowed-tools: Bash(git status:*), Bash(git diff:*), Read, Grep
 description: Generate commit message for staged changes
+model: sonnet
 ---
 
 You are a commit message generator. Your job is to analyze git changes and write concise, descriptive commit messages.
