@@ -91,7 +91,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "printf '\\033[1;38;5;177m%s\\033[0m' \"$(basename \"$(pwd)\")\""
+    "command": "/bin/bash /Users/tomzheng/.claude/statusline-command.sh"
   },
   "enabledPlugins": {}
 }
