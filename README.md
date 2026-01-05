@@ -14,17 +14,20 @@ claude code config files. please feel free to add suggestions!! i enjoy optimizi
 
 ## setup
 
+### 1. environment variables
+
+copy `.env.example` to `.env` and add your api keys:
+
+### 2. symlink configuration files
+
 from the `claude-code-config` directory, symlink these to `~/.claude/`:
 
 ```bash
-# remove old symlinks if they exist
-rm -f ~/.claude/settings.json ~/.claude/hooks.json ~/.claude/mcp.json ~/.claude/CLAUDE.md ~/.claude/agents ~/.claude/rules
-
-# create new symlinks
 ln -s $(pwd)/config/settings.json ~/.claude/settings.json
 ln -s $(pwd)/config/hooks.json ~/.claude/hooks.json
 ln -s $(pwd)/config/mcp.json ~/.claude/mcp.json
 ln -s $(pwd)/config/CLAUDE.md ~/.claude/CLAUDE.md
+ln -s $(pwd)/config/statusline-command.sh ~/.claude/statusline-command.sh
 ln -s $(pwd)/agents ~/.claude/agents
 ln -s $(pwd)/rules ~/.claude/rules
 ```
@@ -33,10 +36,11 @@ ln -s $(pwd)/rules ~/.claude/rules
 
 ```
 config/
-  settings.json   # model, statusline, notification sounds
-  hooks.json      # prettier + bun lint on file changes
-  mcp.json        # mcp server configuration
-  CLAUDE.md       # global instructions (style, principles, machines)
+  settings.json           # model, permissions, notification sounds
+  hooks.json              # prettier + bun lint on file changes
+  mcp.json                
+  CLAUDE.md               # global instructions (style, principles, machines)
+  statusline-command.sh   # custom statusline with git branch, model, context
 
 agents/
   code-reviewer.md    # proactive code review
@@ -45,4 +49,3 @@ agents/
 
 rules/
   nia.md          # nia research assistant rules
-```

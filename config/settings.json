@@ -17,6 +17,10 @@
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(fd:*)",
+      "Bash(basename:*)",
+      "Bash(cd:*)",
+      "Bash(printf:*)",
+      "Bash(jq:*)",
       "Bash(git status:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
@@ -91,7 +95,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "/bin/bash /Users/tomzheng/.claude/statusline-command.sh"
+    "command": "~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {}
 }
