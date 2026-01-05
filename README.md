@@ -11,6 +11,7 @@ claude code config files. please feel free to add suggestions!! i enjoy optimizi
 - **code-reviewer agent** - proactively reviews code for security, quality, and performance issues after changes
 - **code-simplifier agent** - proactively simplifies code for better readability after modifications
 - **plan agent** - architecture planning agent using opus model for deeper reasoning
+- **/commit command** - auto-generate commit messages from git changes
 
 ## setup
 
@@ -30,6 +31,7 @@ ln -s $(pwd)/config/CLAUDE.md ~/.claude/CLAUDE.md
 ln -s $(pwd)/config/statusline-command.sh ~/.claude/statusline-command.sh
 ln -s $(pwd)/agents ~/.claude/agents
 ln -s $(pwd)/rules ~/.claude/rules
+ln -s $(pwd)/commands ~/.claude/commands
 ```
 
 ## structure
@@ -49,3 +51,6 @@ agents/
 
 rules/
   nia.md          # nia research assistant rules
+
+commands/
+  commit.md       # /commit - generate commit messages
