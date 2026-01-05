@@ -38,8 +38,8 @@ ln -s $(pwd)/commands ~/.claude/commands
 
 ```
 config/
-  settings.json           # model, permissions, notification sounds
-  hooks.json              # prettier + bun lint on file changes
+  settings.json           # model, permissions, statusline
+  hooks.json              # prettier, bun lint, sound notifications
   mcp.json                
   CLAUDE.md               # global instructions (style, principles, machines)
   statusline-command.sh   # custom statusline with git branch, model, context
