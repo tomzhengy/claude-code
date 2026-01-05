@@ -11,7 +11,8 @@
 - use uv for everything: uv run, uv pip, uv venv
 
 ## git commits
-- lowercase only
+- use conventional commit prefixes: feat, fix, docs, refactor, chore, test, style
+- lowercase only (including the prefix)
 - one-liner describing what was implemented
 - no signatures or co-authored-by lines
 - commit after completing each task
