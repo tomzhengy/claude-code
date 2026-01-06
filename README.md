@@ -25,7 +25,6 @@ from the `claude-code-config` directory, symlink these to `~/.claude/`:
 
 ```bash
 ln -s $(pwd)/config/settings.json ~/.claude/settings.json
-ln -s $(pwd)/config/hooks.json ~/.claude/hooks.json
 ln -s $(pwd)/config/mcp.json ~/.claude/mcp.json
 ln -s $(pwd)/config/CLAUDE.md ~/.claude/CLAUDE.md
 ln -s $(pwd)/config/statusline-command.sh ~/.claude/statusline-command.sh
@@ -38,9 +37,8 @@ ln -s $(pwd)/commands ~/.claude/commands
 
 ```
 config/
-  settings.json           # model, permissions, statusline
-  hooks.json              # prettier, bun lint, sound notifications
-  mcp.json                
+  settings.json           # model, permissions, statusline, hooks (prettier, lint, sounds)
+  mcp.json
   CLAUDE.md               # global instructions (style, principles, machines)
   statusline-command.sh   # custom statusline with git branch, model, context
 
