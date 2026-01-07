@@ -100,6 +100,15 @@
             "command": "afplay /System/Library/Sounds/Ping.aiff"
           }
         ]
+      },
+      {
+        "matcher": "plan_mode_response",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Ping.aiff"
+          }
+        ]
       }
     ],
     "Stop": [

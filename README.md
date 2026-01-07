@@ -52,3 +52,4 @@ rules/
 
 commands/
   commit.md       # /commit - generate commit messages
+```
