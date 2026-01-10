@@ -11,6 +11,7 @@
 ## python
 
 - use uv for everything: uv run, uv pip, uv venv
+- use `hf` cli instead of `huggingface-cli` (deprecated)
 
 ## git commits
 
