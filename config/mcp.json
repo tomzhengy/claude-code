@@ -1,22 +1,21 @@
 // this is used for reference only, do not use it in the config/mcp.json file. mcps should go in the ~/.claude.json file.
 
 {
-    "mcpServers": {
-      "Github": {
-        "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-github"],
-        "env": {
-          "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
-        }
-      },
-      "nia": {
-        "command": "pipx",
-        "args": ["run", "--no-cache", "nia-mcp-server"],
-        "env": {
-          "NIA_API_KEY": "${NIA_API_KEY}",
-          "NIA_API_URL": "https://apigcp.trynia.ai/"
-        }
+  "mcpServers": {
+    "Github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "nia": {
+      "command": "pipx",
+      "args": ["run", "--no-cache", "nia-mcp-server"],
+      "env": {
+        "NIA_API_KEY": "${NIA_API_KEY}",
+        "NIA_API_URL": "https://apigcp.trynia.ai/"
       }
     }
   }
-  
+}
