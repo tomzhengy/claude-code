@@ -13,6 +13,17 @@
 - use uv for everything: uv run, uv pip, uv venv
 - use `hf` cli instead of `huggingface-cli` (deprecated)
 
+## bash
+
+- avoid commands that cause output buffering issues
+- do not pipe output through `head`, `tail`, `less`, or `more` when monitoring or checking command output
+- do not use `| head -n X` or `| tail -n X` to truncate output - these cause buffering problems
+- instead, let commands complete fully, or use `--max-lines` flags if the command supports them
+- for log monitoring, prefer reading files directly rather than piping through filters
+- run commands directly without pipes when possible
+- if you need to limit output, use command-specific flags (e.g., `git log -n 10` instead of `git log | head -10`)
+- avoid chained pipes that can cause output to buffer indefinitely
+
 ## git commits
 
 - use conventional commit prefixes: feat, fix, docs, refactor, chore, test, style
