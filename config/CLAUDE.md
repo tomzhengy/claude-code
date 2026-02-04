@@ -3,10 +3,10 @@
 ## code style
 
 - use lowercase for all comments
-- keep code simple, avoid over-engineering
+- keep code simple, avoid over-engineering, functionally should be the same
 - prefer readability over cleverness
 - no emojis
-- no em dashes - use hyphens or colons instead
+- no em dashes
 
 ## python
 
@@ -31,10 +31,6 @@
 - one-liner describing what was implemented
 - no signatures or co-authored-by lines
 - commit after completing each task
-
-## communication
-
-- narrate every step
 
 ## behavior
 
@@ -114,11 +110,15 @@ you have unlimited stamina, the human does not. loop on hard problems, but don't
 - run a sub-minute version first to verify the full pipeline works
 - when scaling, only the scale parameter should change
 
-### ground-truth-clarification
+### systems-first
 
-- for non-trivial tasks, reach ground truth understanding before coding
-- simple tasks execute immediately
-- complex tasks (refactors, new features, ambiguous requirements) require clarification first: research codebase, ask targeted questions, confirm understanding, persist the plan, then execute autonomously
+for complex features, iterate on the system design before writing code:
+
+- what are the boundaries? what should each component know/not know?
+- what are the invariants? what must always be true?
+- how does this decompose? what's the natural structure?
+
+don't fill architectural gaps with generic patterns - go back and forth until the design is clear. implementation is the easy part.
 
 ### constraint-persistence
 

@@ -1,5 +1,4 @@
 {
-  "model": "opus",
   "permissions": {
     "allow": [
       "Read",
@@ -117,11 +116,7 @@
       "mcp__nia__index"
     ]
   },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline-command.sh"
-  },
-  "enabledPlugins": {},
+  "model": "opus",
   "hooks": {
     "PostToolUse": [
       {
@@ -212,5 +207,12 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true
   }
 }
