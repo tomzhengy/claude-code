@@ -24,32 +24,33 @@ copy `.env.example` to `.env` and add your api keys:
 from the `claude-code-config` directory, symlink these to `~/.claude/`:
 
 ```bash
-ln -s $(pwd)/config/settings.json ~/.claude/settings.json
-ln -s $(pwd)/config/mcp.json ~/.claude/mcp.json
-ln -s $(pwd)/config/CLAUDE.md ~/.claude/CLAUDE.md
-ln -s $(pwd)/config/statusline-command.sh ~/.claude/statusline-command.sh
-ln -s $(pwd)/agents ~/.claude/agents
-ln -s $(pwd)/rules ~/.claude/rules
-ln -s $(pwd)/commands ~/.claude/commands
+ln -s $(pwd)/claude-code/config/settings.json ~/.claude/settings.json
+ln -s $(pwd)/claude-code/config/mcp.json ~/.claude/mcp.json
+ln -s $(pwd)/claude-code/config/CLAUDE.md ~/.claude/CLAUDE.md
+ln -s $(pwd)/claude-code/config/statusline-command.sh ~/.claude/statusline-command.sh
+ln -s $(pwd)/claude-code/agents ~/.claude/agents
+ln -s $(pwd)/claude-code/rules ~/.claude/rules
+ln -s $(pwd)/claude-code/commands ~/.claude/commands
 ```
 
 ## structure
 
 ```
-config/
-  settings.json           # model, permissions, statusline, hooks (prettier, lint, sounds)
-  mcp.json
-  CLAUDE.md               # global instructions (style, principles, machines)
-  statusline-command.sh   # custom statusline with git branch, model, context
+claude-code/
+  config/
+    settings.json           # model, permissions, statusline, hooks (prettier, lint, sounds)
+    mcp.json
+    CLAUDE.md               # global instructions (style, principles, machines)
+    statusline-command.sh   # custom statusline with git branch, model, context
 
-agents/
-  code-reviewer.md    # proactive code review
-  code-simplifier.md  # proactive code simplification
-  plan.md             # architecture planning
+  agents/
+    code-reviewer.md    # proactive code review
+    code-simplifier.md  # proactive code simplification
+    plan.md             # architecture planning
 
-rules/
-  nia.md          # nia research assistant rules
+  rules/
+    nia.md          # nia research assistant rules
 
-commands/
-  commit.md       # /commit - generate commit messages
+  commands/
+    commit.md       # /commit - generate commit messages
 ```
