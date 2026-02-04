@@ -1,8 +1,8 @@
-# claude-code
+# claude-code-config
 
-claude code config files. please feel free to add suggestions!! i enjoy optimizing my agent workflows.
+claude code and codex cli config files. please feel free to add suggestions!! i enjoy optimizing my agent workflows.
 
-## features
+## claude code features
 
 - **granular bash permissions** - only safe read-only commands allowed (cat, ls, find, grep, git status/log/diff/show/blame, etc.)
 - **sound notifications** - ping sound on permission prompts, glass sound when done
@@ -19,7 +19,7 @@ claude code config files. please feel free to add suggestions!! i enjoy optimizi
 
 copy `.env.example` to `.env` and add your api keys:
 
-### 2. symlink configuration files
+### 2. claude code symlinks
 
 from the `claude-code-config` directory, symlink these to `~/.claude/`:
 
@@ -31,6 +31,18 @@ ln -s $(pwd)/claude-code/config/statusline-command.sh ~/.claude/statusline-comma
 ln -s $(pwd)/claude-code/agents ~/.claude/agents
 ln -s $(pwd)/claude-code/rules ~/.claude/rules
 ln -s $(pwd)/claude-code/commands ~/.claude/commands
+```
+
+### 3. codex cli symlinks
+
+from the `claude-code-config` directory, symlink these to `~/.codex/`:
+
+```bash
+ln -s $(pwd)/codex/config.toml ~/.codex/config.toml
+ln -s $(pwd)/codex/AGENTS.md ~/.codex/AGENTS.md
+ln -s $(pwd)/codex/instructions.md ~/.codex/instructions.md
+ln -s $(pwd)/codex/rules ~/.codex/rules
+ln -s $(pwd)/codex/skills ~/.codex/skills
 ```
 
 ## structure
@@ -53,4 +65,13 @@ claude-code/
 
   commands/
     commit.md       # /commit - generate commit messages
+
+codex/
+  config.toml
+  AGENTS.md
+  instructions.md
+  rules/
+    default.rules
+  skills/
+    .system/
 ```
