@@ -119,3 +119,4 @@ prefix_rule(pattern=["git", "commit", "-m", "docs: add codex symlink instruction
 prefix_rule(pattern=["git", "add", "codex/rules/default.rules"], decision="allow")
 prefix_rule(pattern=["git", "commit", "-m", "docs: port claude instructions to codex agents"], decision="allow")
 prefix_rule(pattern=["git", "commit", "-m", "chore: expand codex rules allowlist"], decision="allow")
+prefix_rule(pattern=["git", "commit", "-m", "chore: update codex rules"], decision="allow")
