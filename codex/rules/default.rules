@@ -1,3 +1,101 @@
+# ported from claude-code permissions allowlist
+prefix_rule(
+    pattern=[
+        [
+            "cat",
+            "ls",
+            "find",
+            "which",
+            "head",
+            "tail",
+            "wc",
+            "file",
+            "stat",
+            "tree",
+            "pwd",
+            "echo",
+            "grep",
+            "rg",
+            "fd",
+            "basename",
+            "dirname",
+            "realpath",
+            "readlink",
+            "cd",
+            "printf",
+            "jq",
+            "yq",
+            "diff",
+            "sort",
+            "uniq",
+            "cut",
+            "tr",
+            "awk",
+            "env",
+            "printenv",
+            "whoami",
+            "hostname",
+            "date",
+            "uname",
+            "id",
+            "type",
+            "command",
+            "du",
+            "df",
+            "ps",
+            "pgrep",
+            "lsof",
+            "xattr",
+            "mdls",
+            "mdfind",
+        ],
+    ],
+    decision="allow",
+)
+
+prefix_rule(
+    pattern=[
+        "git",
+        [
+            "status",
+            "log",
+            "diff",
+            "show",
+            "branch",
+            "remote",
+            "tag",
+            "ls-files",
+            "ls-tree",
+            "cat-file",
+            "rev-parse",
+            "describe",
+            "blame",
+            "shortlog",
+            "add",
+            "commit",
+        ],
+    ],
+    decision="allow",
+)
+
+prefix_rule(pattern=["git", "stash", "list"], decision="allow")
+prefix_rule(pattern=["git", "config", "--get"], decision="allow")
+
+prefix_rule(
+    pattern=["npm", ["list", "ls", "view", "info", "outdated", "--version"]],
+    decision="allow",
+)
+
+prefix_rule(pattern=["bun", "--version"], decision="allow")
+prefix_rule(pattern=["node", "--version"], decision="allow")
+prefix_rule(pattern=["python", "--version"], decision="allow")
+prefix_rule(pattern=["python3", "--version"], decision="allow")
+prefix_rule(pattern=["uv", "--version"], decision="allow")
+prefix_rule(pattern=["uv", "pip", ["list", "show"]], decision="allow")
+prefix_rule(pattern=["cargo", ["--version", "tree"]], decision="allow")
+prefix_rule(pattern=["rustc", "--version"], decision="allow")
+prefix_rule(pattern=["go", ["version", "list"]], decision="allow")
+
 prefix_rule(pattern=["git", "add", "app/page.tsx"], decision="allow")
 prefix_rule(pattern=["git", "commit", "-m", "Remove unused main ref"], decision="allow")
 prefix_rule(pattern=["git", "commit", "-m", "Simplify duplicate padding classes"], decision="allow")
@@ -19,3 +117,4 @@ prefix_rule(pattern=["git", "commit", "-m", "refactor: move claude code config i
 prefix_rule(pattern=["mv", "~/.codex/config.toml", "~/.codex/AGENTS.md", "~/.codex/instructions.md", "codex/"], decision="allow")
 prefix_rule(pattern=["git", "commit", "-m", "docs: add codex symlink instructions"], decision="allow")
 prefix_rule(pattern=["git", "add", "codex/rules/default.rules"], decision="allow")
+prefix_rule(pattern=["git", "commit", "-m", "docs: port claude instructions to codex agents"], decision="allow")
