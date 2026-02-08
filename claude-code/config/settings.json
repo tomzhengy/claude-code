@@ -81,7 +81,7 @@
       "Bash(npm info:*)",
       "Bash(npm outdated:*)",
       "Bash(npm --version:*)",
-      "Bash(bun --version:*)",
+      "Bash(bun:*)",
       "Bash(node --version:*)",
       "Bash(python --version:*)",
       "Bash(python3 --version:*)",

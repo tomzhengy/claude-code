@@ -8,6 +8,10 @@
 - no emojis
 - no em dashes
 
+## javascript/typescript
+
+- always use bun instead of npm/yarn/npx (bun install, bun run, bunx)
+
 ## python
 
 - use uv for everything: uv run, uv pip, uv venv
