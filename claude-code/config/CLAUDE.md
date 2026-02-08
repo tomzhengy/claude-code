@@ -74,6 +74,22 @@ CONCERNS:
 - [risks or things to verify]
 ```
 
+### worktree workflow
+
+when starting a non-trivial task (not config tweaks, not quick fixes):
+
+1. determine a short descriptive name from the task (e.g., `auth-fix`, `add-search`)
+2. create a worktree: `git worktree add ../$(basename $PWD)-<name> -b claude/<name>`
+3. cd into the new worktree directory
+4. do all work there
+5. when done, tell the user the branch name and worktree path
+
+skip worktree creation if:
+
+- already in a worktree (check: `git rev-parse --show-toplevel` differs from `git worktree list` main)
+- the task is trivial (single file edit, config change)
+- the user explicitly says to work on the current branch
+
 ## failure modes to avoid
 
 1. making assumptions without checking
