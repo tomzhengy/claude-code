@@ -10,7 +10,7 @@ RUN apt-get update -qq && \
 
 # sshd setup
 RUN mkdir -p /run/sshd && \
-    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+    echo "PermitRootLogin prohibit-password" >> /etc/ssh/sshd_config
 
 # node 22.x
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - > /dev/null 2>&1 && \
@@ -35,5 +35,6 @@ RUN npm install -g @anthropic-ai/claude-code > /dev/null 2>&1
 
 # copy scripts
 COPY bootstrap.sh entrypoint.sh /opt/gpu-setup/
+RUN chmod +x /opt/gpu-setup/*.sh
 
 ENTRYPOINT ["/opt/gpu-setup/entrypoint.sh"]

@@ -108,9 +108,11 @@ if [ -d "$CONFIG_DIR/.git" ]; then
     git -C "$CONFIG_DIR" pull --ff-only -q 2>/dev/null || echo "pull failed (maybe dirty), continuing with existing"
 else
     echo "cloning config repo..."
-    # try https with token first, then plain https, then ssh
+    # try https with token header first (avoids leaking token in .git/config),
+    # then plain https, then ssh
     if [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
-        git clone -q "https://${GITHUB_PERSONAL_ACCESS_TOKEN}@github.com/tomzhengy/claude-code-config.git" "$CONFIG_DIR"
+        git -c "http.https://github.com/.extraheader=Authorization: token ${GITHUB_PERSONAL_ACCESS_TOKEN}" \
+            clone -q "$REPO_URL" "$CONFIG_DIR"
     elif git clone -q "$REPO_URL" "$CONFIG_DIR" 2>/dev/null; then
         true
     else
@@ -151,16 +153,10 @@ echo "--- settings.json ---"
 SOURCE_SETTINGS="$CONF_BASE/config/settings.json"
 TARGET_SETTINGS="$CLAUDE_DIR/settings.json"
 
-# keep permissions, model, PostToolUse hooks, statusLine
-# remove Notification, PermissionRequest, Stop hooks (afplay), enabledPlugins (swift-lsp)
-jq '{
-    permissions: .permissions,
-    model: .model,
-    hooks: {
-        PostToolUse: .hooks.PostToolUse
-    },
-    statusLine: .statusLine
-}' "$SOURCE_SETTINGS" > "$TARGET_SETTINGS"
+# strip macOS-only entries: afplay hooks (Notification, PermissionRequest, Stop) and swift-lsp plugin
+# denylist approach so new top-level keys are preserved automatically
+jq 'del(.hooks.Notification, .hooks.PermissionRequest, .hooks.Stop, .enabledPlugins)' \
+    "$SOURCE_SETTINGS" > "$TARGET_SETTINGS"
 echo "  settings.json generated (macOS hooks stripped)"
 
 # ---- write ~/.claude.json (MCP servers) ----
@@ -171,27 +167,29 @@ MCP_FILE="$HOME/.claude.json"
 MCP_JSON='{"mcpServers":{}}'
 
 if [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
-    MCP_JSON=$(echo "$MCP_JSON" | jq --arg token "$GITHUB_PERSONAL_ACCESS_TOKEN" '.mcpServers.Github = {
-        "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-github"],
-        "env": {
-            "GITHUB_PERSONAL_ACCESS_TOKEN": $token
-        }
-    }')
+    MCP_JSON=$(echo "$MCP_JSON" | GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_PERSONAL_ACCESS_TOKEN" \
+        jq '.mcpServers.Github = {
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-github"],
+            "env": {
+                "GITHUB_PERSONAL_ACCESS_TOKEN": env.GITHUB_PERSONAL_ACCESS_TOKEN
+            }
+        }')
     echo "  github MCP configured"
 else
     echo "  github MCP skipped (no GITHUB_PERSONAL_ACCESS_TOKEN)"
 fi
 
 if [ -n "${NIA_API_KEY:-}" ]; then
-    MCP_JSON=$(echo "$MCP_JSON" | jq --arg key "$NIA_API_KEY" '.mcpServers.nia = {
-        "command": "pipx",
-        "args": ["run", "--no-cache", "nia-mcp-server"],
-        "env": {
-            "NIA_API_KEY": $key,
-            "NIA_API_URL": "https://apigcp.trynia.ai/"
-        }
-    }')
+    MCP_JSON=$(echo "$MCP_JSON" | NIA_API_KEY="$NIA_API_KEY" \
+        jq '.mcpServers.nia = {
+            "command": "pipx",
+            "args": ["run", "--no-cache", "nia-mcp-server"],
+            "env": {
+                "NIA_API_KEY": env.NIA_API_KEY,
+                "NIA_API_URL": "https://apigcp.trynia.ai/"
+            }
+        }')
     echo "  nia MCP configured"
 else
     echo "  nia MCP skipped (no NIA_API_KEY)"
