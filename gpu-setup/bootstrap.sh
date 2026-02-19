@@ -91,7 +91,8 @@ fi
 echo "--- claude code ---"
 if ! command -v claude > /dev/null 2>&1; then
     echo "installing claude code..."
-    npm install -g @anthropic-ai/claude-code > /dev/null 2>&1
+    curl -fsSL https://claude.ai/install.sh | sh > /dev/null 2>&1
+    export PATH="$HOME/.local/bin:$PATH"
     echo "claude code installed"
 else
     echo "claude code already installed"
@@ -232,13 +233,6 @@ add_to_bashrc() {
 add_to_bashrc 'export PATH="$HOME/.bun/bin:$PATH"'
 add_to_bashrc 'export PATH="$HOME/.local/bin:$PATH"'
 add_to_bashrc 'export BUN_INSTALL="$HOME/.bun"'
-
-# persist container env vars so SSH sessions can access them
-for var in ANTHROPIC_API_KEY GITHUB_PERSONAL_ACCESS_TOKEN NIA_API_KEY; do
-    if [ -n "${!var:-}" ]; then
-        add_to_bashrc "export $var=\"${!var}\""
-    fi
-done
 
 # ---- global gitignore ----
 echo "--- gitignore ---"

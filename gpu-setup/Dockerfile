@@ -12,11 +12,6 @@ RUN apt-get update -qq && \
 RUN mkdir -p /run/sshd && \
     echo "PermitRootLogin prohibit-password" >> /etc/ssh/sshd_config
 
-# node 22.x
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - > /dev/null 2>&1 && \
-    apt-get install -y -qq nodejs > /dev/null && \
-    rm -rf /var/lib/apt/lists/*
-
 # bun
 RUN curl -fsSL https://bun.sh/install | bash > /dev/null 2>&1
 ENV BUN_INSTALL="/root/.bun"
@@ -30,8 +25,8 @@ ENV PATH="/root/.local/bin:$PATH"
 RUN pip install --no-cache-dir pipx > /dev/null 2>&1 && \
     pipx ensurepath > /dev/null 2>&1
 
-# claude code
-RUN npm install -g @anthropic-ai/claude-code > /dev/null 2>&1
+# claude code (native installer, no node required)
+RUN curl -fsSL https://claude.ai/install.sh | sh > /dev/null 2>&1
 
 # copy scripts
 COPY bootstrap.sh entrypoint.sh /opt/gpu-setup/
