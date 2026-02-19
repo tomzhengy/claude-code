@@ -14,11 +14,6 @@ else
     echo "using home dir ($HOME)"
 fi
 
-# ---- check api key ----
-if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
-    echo "warning: ANTHROPIC_API_KEY is not set. you'll need to login via oauth."
-fi
-
 # ---- system deps ----
 echo "--- system deps ---"
 NEED_APT=false
