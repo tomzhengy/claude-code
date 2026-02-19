@@ -101,7 +101,7 @@ fi
 # ---- clone config repo ----
 echo "--- config repo ---"
 CONFIG_DIR="$PERSIST_DIR/claude-code-config"
-REPO_URL="https://github.com/tomzhengy/claude-code-config.git"
+REPO_URL="https://github.com/tomzhengy/claude-code.git"
 
 if [ -d "$CONFIG_DIR/.git" ]; then
     echo "config repo exists, pulling latest..."
@@ -116,7 +116,7 @@ else
     elif git clone -q "$REPO_URL" "$CONFIG_DIR" 2>/dev/null; then
         true
     else
-        git clone -q "git@github.com:tomzhengy/claude-code-config.git" "$CONFIG_DIR"
+        git clone -q "git@github.com:tomzhengy/claude-code.git" "$CONFIG_DIR"
     fi
     echo "config repo cloned"
 fi
