@@ -16,8 +16,7 @@ fi
 
 # ---- check api key ----
 if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
-    echo "error: ANTHROPIC_API_KEY is not set. export it and re-run."
-    exit 1
+    echo "warning: ANTHROPIC_API_KEY is not set. you'll need to login via oauth."
 fi
 
 # ---- system deps ----
@@ -159,15 +158,31 @@ jq 'del(.hooks.Notification, .hooks.PermissionRequest, .hooks.Stop, .enabledPlug
     "$SOURCE_SETTINGS" > "$TARGET_SETTINGS"
 echo "  settings.json generated (macOS hooks stripped)"
 
-# ---- write ~/.claude.json (MCP servers) ----
-echo "--- mcp config ---"
+# ---- persist ~/.claude.json to workspace ----
+echo "--- claude state ---"
+CLAUDE_STATE="$PERSIST_DIR/.claude.json"
 MCP_FILE="$HOME/.claude.json"
 
-# build MCP config, only include servers whose tokens are set
-MCP_JSON='{"mcpServers":{}}'
+# restore from persistent storage if it exists (preserves oauth session)
+if [ -f "$CLAUDE_STATE" ] && [ ! -L "$MCP_FILE" ]; then
+    echo "  restoring claude state from $CLAUDE_STATE"
+fi
+
+# ensure the persistent file exists
+if [ ! -f "$CLAUDE_STATE" ]; then
+    echo '{}' > "$CLAUDE_STATE"
+fi
+
+# symlink ~/.claude.json -> /workspace/.claude.json
+ln -sf "$CLAUDE_STATE" "$MCP_FILE"
+echo "  $MCP_FILE -> $CLAUDE_STATE"
+
+# merge MCP servers into existing state (preserves auth, preferences, etc.)
+echo "--- mcp config ---"
+MCP_PATCH='{"mcpServers":{}}'
 
 if [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
-    MCP_JSON=$(echo "$MCP_JSON" | GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_PERSONAL_ACCESS_TOKEN" \
+    MCP_PATCH=$(echo "$MCP_PATCH" | GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_PERSONAL_ACCESS_TOKEN" \
         jq '.mcpServers.Github = {
             "command": "npx",
             "args": ["-y", "@modelcontextprotocol/server-github"],
@@ -181,7 +196,7 @@ else
 fi
 
 if [ -n "${NIA_API_KEY:-}" ]; then
-    MCP_JSON=$(echo "$MCP_JSON" | NIA_API_KEY="$NIA_API_KEY" \
+    MCP_PATCH=$(echo "$MCP_PATCH" | NIA_API_KEY="$NIA_API_KEY" \
         jq '.mcpServers.nia = {
             "command": "pipx",
             "args": ["run", "--no-cache", "nia-mcp-server"],
@@ -195,8 +210,11 @@ else
     echo "  nia MCP skipped (no NIA_API_KEY)"
 fi
 
-echo "$MCP_JSON" | jq '.' > "$MCP_FILE"
-echo "  wrote $MCP_FILE"
+# merge patch into existing state (existing keys preserved, mcpServers updated)
+jq -s '.[0] * .[1]' "$CLAUDE_STATE" <(echo "$MCP_PATCH") > "$CLAUDE_STATE.tmp" \
+    && mv "$CLAUDE_STATE.tmp" "$CLAUDE_STATE"
+chmod 600 "$CLAUDE_STATE"
+echo "  merged mcp config into $CLAUDE_STATE"
 
 # ---- persist PATH to .bashrc ----
 echo "--- bashrc ---"
@@ -214,6 +232,29 @@ add_to_bashrc() {
 add_to_bashrc 'export PATH="$HOME/.bun/bin:$PATH"'
 add_to_bashrc 'export PATH="$HOME/.local/bin:$PATH"'
 add_to_bashrc 'export BUN_INSTALL="$HOME/.bun"'
+
+# persist container env vars so SSH sessions can access them
+for var in ANTHROPIC_API_KEY GITHUB_PERSONAL_ACCESS_TOKEN NIA_API_KEY; do
+    if [ -n "${!var:-}" ]; then
+        add_to_bashrc "export $var=\"${!var}\""
+    fi
+done
+
+# ---- global gitignore ----
+echo "--- gitignore ---"
+GLOBAL_GITIGNORE="$HOME/.gitignore_global"
+touch "$GLOBAL_GITIGNORE"
+git config --global core.excludesfile "$GLOBAL_GITIGNORE"
+
+add_to_gitignore() {
+    local line="$1"
+    if ! grep -qF "$line" "$GLOBAL_GITIGNORE"; then
+        echo "$line" >> "$GLOBAL_GITIGNORE"
+        echo "  added to global gitignore: $line"
+    fi
+}
+
+add_to_gitignore ".claude.json"
 
 echo ""
 echo "=== bootstrap complete ==="
