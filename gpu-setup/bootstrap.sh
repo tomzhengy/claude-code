@@ -108,13 +108,13 @@ if [ -d "$CONFIG_DIR/.git" ]; then
     git -C "$CONFIG_DIR" pull --ff-only -q 2>/dev/null || echo "pull failed (maybe dirty), continuing with existing"
 else
     echo "cloning config repo..."
-    # try https with token header first (avoids leaking token in .git/config),
-    # then plain https, then ssh
-    if [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
+    # try plain https first (works for public repos even if token is set),
+    # then https with token, then ssh
+    if git clone -q "$REPO_URL" "$CONFIG_DIR" 2>/dev/null; then
+        true
+    elif [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
         git -c "http.https://github.com/.extraheader=Authorization: token ${GITHUB_PERSONAL_ACCESS_TOKEN}" \
             clone -q "$REPO_URL" "$CONFIG_DIR"
-    elif git clone -q "$REPO_URL" "$CONFIG_DIR" 2>/dev/null; then
-        true
     else
         git clone -q "git@github.com:tomzhengy/claude-code.git" "$CONFIG_DIR"
     fi
