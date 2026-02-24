@@ -4,14 +4,18 @@ claude code and codex cli config files. please feel free to add suggestions!! i 
 
 ## claude code features
 
-- **granular bash permissions** - only safe read-only commands allowed (cat, ls, find, grep, git status/log/diff/show/blame, etc.)
-- **sound notifications** - ping sound on permission prompts, glass sound when done
+- **granular bash permissions** - read-only commands auto-allowed, write commands (git add/commit/merge/checkout/worktree) explicitly permitted
+- **sound notifications** - async ping on permission prompts, idle prompts, auth, elicitations, and plan mode responses; glass sound when done
 - **auto-formatting** - prettier runs automatically on every file edit/write
 - **auto-linting** - bun lint runs automatically after file changes
-- **code-reviewer agent** - proactively reviews code for security, quality, and performance issues after changes
-- **code-simplifier agent** - proactively simplifies code for better readability after modifications
+- **git worktree workflow** - auto-creates worktrees for non-trivial tasks to isolate branches across sessions
+- **behavioral guardrails** - assumption surfacing, confusion management, change summaries
+- **systems-first design** - iterates on system design before writing code
 - **plan agent** - architecture planning agent using opus model for deeper reasoning
 - **/commit command** - auto-generate commit messages from git changes
+- **/merge command** - merge a worktree branch back into the target branch and clean up
+- **nia research rules** - integrated nia mcp for external code/docs research and indexing
+- **custom statusline** - git branch, model, and context info
 
 ## setup
 
@@ -51,20 +55,22 @@ ln -s $(pwd)/codex/skills ~/.codex/skills
 claude-code/
   config/
     settings.json           # model, permissions, statusline, hooks (prettier, lint, sounds)
-    mcp.json
-    CLAUDE.md               # global instructions (style, principles, machines)
+    mcp.json                # mcp server config (nia, github, etc.)
+    CLAUDE.md               # global instructions (style, behavior, principles)
     statusline-command.sh   # custom statusline with git branch, model, context
 
   agents/
-    code-reviewer.md    # proactive code review
-    code-simplifier.md  # proactive code simplification
-    plan.md             # architecture planning
+    plan.md                 # architecture planning
+    disabled/
+      code-reviewer.md      # proactive code review (disabled)
+      code-simplifier.md    # proactive code simplification (disabled)
 
   rules/
-    nia.md          # nia research assistant rules
+    nia.md                  # nia research assistant rules
 
   commands/
-    commit.md       # /commit - generate commit messages
+    commit.md               # /commit - generate commit messages
+    merge.md                # /merge - merge worktree branch and clean up
 
 codex/
   config.toml
@@ -74,4 +80,9 @@ codex/
     default.rules
   skills/
     .system/
+
+gpu-setup/
+  Dockerfile                # runpod pytorch gpu environment
+  bootstrap.sh              # system setup script
+  entrypoint.sh             # container entrypoint
 ```
