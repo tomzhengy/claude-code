@@ -47,15 +47,7 @@ ln -s $(pwd)/claude-code/commands ~/.claude/commands
 
 ### 3. codex cli setup
 
-install codex cli if you do not already have it:
-
-```bash
-npm install -g @openai/codex
-# or
-brew install --cask codex
-```
-
-from the `claude-code-config` directory, create `~/.codex/` and symlink these files:
+from the `claude-code-config` directory, symlink these files to `~/.codex/`:
 
 ```bash
 mkdir -p ~/.codex
