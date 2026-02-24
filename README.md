@@ -31,7 +31,7 @@ source .env
 set +a
 ```
 
-### 2. claude code symlinks
+### 2.1 claude code symlinks
 
 from the `claude-code-config` directory, symlink these to `~/.claude/`:
 
@@ -45,7 +45,7 @@ ln -s $(pwd)/claude-code/rules ~/.claude/rules
 ln -s $(pwd)/claude-code/commands ~/.claude/commands
 ```
 
-### 3. codex cli setup
+### 2.2 codex cli setup
 
 from the `claude-code-config` directory, symlink these files to `~/.codex/`:
 
@@ -66,6 +66,48 @@ ls -la ~/.codex
 ```
 
 if prompted, run `codex` once and complete sign-in. keep your env vars loaded before launching codex so mcp tokens resolve correctly.
+
+### 3. runpod / docker gpu setup
+
+for running claude code on a remote GPU instance (runpod, etc.):
+
+**option a: docker image**
+
+build and push the image, then use it as a runpod template:
+
+```bash
+cd gpu-setup
+docker build -t claude-gpu .
+```
+
+the image includes: pytorch, cuda 12.8, bun, uv, pipx, claude code, and sshd. on boot it runs `bootstrap.sh` which clones this config repo, sets up symlinks, configures MCP servers, and strips macOS-only hooks (sound notifications, swift-lsp plugin).
+
+set these env vars in your runpod template:
+
+| variable                       | required | description               |
+| ------------------------------ | -------- | ------------------------- |
+| `ANTHROPIC_API_KEY`            | yes      | claude api key            |
+| `GITHUB_PERSONAL_ACCESS_TOKEN` | no       | enables github MCP server |
+| `NIA_API_KEY`                  | no       | enables nia MCP server    |
+
+then ssh in and run `claude`.
+
+**option b: bootstrap script on an existing instance**
+
+if you already have a GPU instance running, just curl the bootstrap script:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/tomzhengy/claude-code/main/gpu-setup/bootstrap.sh | bash
+```
+
+this installs everything and sets up config. it's idempotent so you can run it again after a restart.
+
+**notes:**
+
+- `/workspace` is used for persistent storage on runpod (survives restarts)
+- claude oauth session is persisted to `/workspace/.claude.json`
+- macOS-only hooks (afplay sounds, swift-lsp) are auto-stripped from settings.json
+- `settings.json` is generated (not symlinked) so linux-incompatible entries don't break things
 
 ## structure
 
