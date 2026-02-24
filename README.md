@@ -21,7 +21,15 @@ claude code and codex cli config files. please feel free to add suggestions!! i 
 
 ### 1. environment variables
 
-copy `.env.example` to `.env` and add your api keys:
+copy `.env.example` to `.env`, add your api keys, then load it in your shell:
+
+```bash
+cp .env.example .env
+# edit .env with your keys
+set -a
+source .env
+set +a
+```
 
 ### 2. claude code symlinks
 
@@ -37,17 +45,35 @@ ln -s $(pwd)/claude-code/rules ~/.claude/rules
 ln -s $(pwd)/claude-code/commands ~/.claude/commands
 ```
 
-### 3. codex cli symlinks
+### 3. codex cli setup
 
-from the `claude-code-config` directory, symlink these to `~/.codex/`:
+install codex cli if you do not already have it:
 
 ```bash
-ln -s $(pwd)/codex/config.toml ~/.codex/config.toml
-ln -s $(pwd)/codex/AGENTS.md ~/.codex/AGENTS.md
-ln -s $(pwd)/codex/instructions.md ~/.codex/instructions.md
-ln -s $(pwd)/codex/rules ~/.codex/rules
-ln -s $(pwd)/codex/skills ~/.codex/skills
+npm install -g @openai/codex
+# or
+brew install --cask codex
 ```
+
+from the `claude-code-config` directory, create `~/.codex/` and symlink these files:
+
+```bash
+mkdir -p ~/.codex
+ln -sf $(pwd)/codex/config.toml ~/.codex/config.toml
+ln -sf $(pwd)/codex/AGENTS.md ~/.codex/AGENTS.md
+ln -sf $(pwd)/codex/instructions.md ~/.codex/instructions.md
+ln -sfn $(pwd)/codex/rules ~/.codex/rules
+ln -sfn $(pwd)/codex/skills ~/.codex/skills
+```
+
+verify codex setup:
+
+```bash
+codex --help
+ls -la ~/.codex
+```
+
+if prompted, run `codex` once and complete sign-in. keep your env vars loaded before launching codex so mcp tokens resolve correctly.
 
 ## structure
 
