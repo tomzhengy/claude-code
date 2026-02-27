@@ -71,26 +71,46 @@ if prompted, run `codex` once and complete sign-in. keep your env vars loaded be
 
 for running claude code on a remote GPU instance (runpod, etc.):
 
-**option a: docker image**
+**option a: docker image on runpod**
 
-build and push the image, then use it as a runpod template:
+1. build and push the image to docker hub (or any registry runpod can pull from):
 
 ```bash
 cd gpu-setup
-docker build -t claude-gpu .
+docker build -t <your-dockerhub-username>/claude-gpu .
+docker push <your-dockerhub-username>/claude-gpu
 ```
 
-the image includes: pytorch, cuda 12.8, bun, uv, pipx, claude code, and sshd. on boot it runs `bootstrap.sh` which clones this config repo, sets up symlinks, configures MCP servers, and strips macOS-only hooks (sound notifications, swift-lsp plugin).
+2. create a runpod template:
 
-set these env vars in your runpod template:
+   - go to [runpod.io/console/user/templates](https://www.runpod.io/console/user/templates) and click **new template**
+   - **template name**: `claude-gpu` (or whatever you want)
+   - **container image**: `<your-dockerhub-username>/claude-gpu`
+   - **container disk**: 20 GB (enough for deps and models)
+   - **volume disk**: 50+ GB (mounted at `/workspace`, persists across restarts)
+   - **volume mount path**: `/workspace`
+   - **expose http ports**: `8888` (optional, for jupyter)
+   - **expose tcp ports**: `22` (for ssh)
+   - **environment variables**:
 
-| variable                       | required | description               |
-| ------------------------------ | -------- | ------------------------- |
-| `ANTHROPIC_API_KEY`            | yes      | claude api key            |
-| `GITHUB_PERSONAL_ACCESS_TOKEN` | no       | enables github MCP server |
-| `NIA_API_KEY`                  | no       | enables nia MCP server    |
+     | variable                       | required | description               |
+     | ------------------------------ | -------- | ------------------------- |
+     | `ANTHROPIC_API_KEY`            | yes      | claude api key            |
+     | `GITHUB_PERSONAL_ACCESS_TOKEN` | no       | enables github MCP server |
+     | `NIA_API_KEY`                  | no       | enables nia MCP server    |
 
-then ssh in and run `claude`.
+   - leave **docker command** empty (the image uses its own entrypoint)
+   - click **save template**
+
+3. deploy a pod using the template:
+
+   - go to **pods** > **deploy** and select your `claude-gpu` template
+   - pick a GPU (A100, H100, etc.)
+   - click **deploy**
+   - once running, grab the ssh command from the pod's **connect** menu
+   - ssh in and run `claude`
+
+the image is based on `runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404` and adds: bun, uv, pipx, claude code, and sshd. on boot, `bootstrap.sh` clones this config repo to `/workspace`, sets up symlinks, configures MCP servers, and strips macOS-only hooks (sound notifications, swift-lsp plugin).
 
 **option b: bootstrap script on an existing instance**
 
