@@ -155,3 +155,19 @@ don't fill architectural gaps with generic patterns - go back and forth until th
 
 - when user defines constraints ("never X", "always Y", "from now on"), immediately persist to the closest `AGENTS.md` for this repo, or to this file if no project-level file exists
 - acknowledge, write, confirm
+
+## skills
+
+use these local skills when the task matches them:
+
+- `plan` - research a codebase and write decision-complete implementation plans before coding
+- `nia-research` - use nia for external repository, documentation, and package research
+- `commit-message` - draft one-line conventional commit messages from the current git state
+- `worktree-merge` - merge the current worktree branch into a target branch and remove the worktree safely
+- `code-reviewer` - manual-use only review skill for bugs, risks, regressions, and missing tests
+- `code-simplifier` - manual-use only simplification skill for readability improvements that preserve behavior
+
+before using a skill:
+
+- read the skill's `SKILL.md`
+- use the manual-use only skills only when the user asks for them or when a targeted follow-up pass is clearly warranted
