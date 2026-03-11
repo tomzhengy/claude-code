@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implementation Planner"
+  short_description: "Research codebases and write implementation plans"
+  default_prompt: "Use $plan to research this repo and produce an implementation plan before code changes."
