@@ -31,6 +31,7 @@ prefix_rule(
             "cut",
             "tr",
             "awk",
+            "sed",
             "env",
             "printenv",
             "whoami",
@@ -40,6 +41,8 @@ prefix_rule(
             "id",
             "type",
             "command",
+            "test",
+            "[",
             "du",
             "df",
             "ps",
@@ -52,6 +55,24 @@ prefix_rule(
     ],
     decision="allow",
 )
+
+# mirror current claude settings.json command-family breadth
+prefix_rule(pattern=["curl"], decision="allow")
+prefix_rule(pattern=["gh"], decision="allow")
+prefix_rule(pattern=["brew"], decision="allow")
+prefix_rule(pattern=["git"], decision="allow")
+prefix_rule(pattern=["npm"], decision="allow")
+prefix_rule(pattern=["bun"], decision="allow")
+prefix_rule(pattern=["node"], decision="allow")
+prefix_rule(pattern=["python"], decision="allow")
+prefix_rule(pattern=["python3"], decision="allow")
+prefix_rule(pattern=["pip"], decision="allow")
+prefix_rule(pattern=["pip3"], decision="allow")
+prefix_rule(pattern=["uv"], decision="allow")
+prefix_rule(pattern=["cargo"], decision="allow")
+prefix_rule(pattern=["rustc"], decision="allow")
+prefix_rule(pattern=["go"], decision="allow")
+prefix_rule(pattern=["docker"], decision="allow")
 
 prefix_rule(
     pattern=[
@@ -127,3 +148,6 @@ prefix_rule(pattern=["git", "add"], decision="allow")
 prefix_rule(pattern=["git", "commit"], decision="allow")
 prefix_rule(pattern=["git", "mv"], decision="allow")
 prefix_rule(pattern=["git", "rebase"], decision="allow")
+prefix_rule(pattern=["bun", "dev"], decision="allow")
+prefix_rule(pattern=["git", "apply", "--cached"], decision="allow")
+prefix_rule(pattern=["git", "update-index"], decision="allow")
