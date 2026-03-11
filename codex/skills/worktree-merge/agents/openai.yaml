@@ -1,0 +1,4 @@
+interface:
+  display_name: "Worktree Merge"
+  short_description: "Merge and clean up a git worktree branch"
+  default_prompt: "Use $worktree-merge to merge the current worktree branch back into its base branch and clean up."
