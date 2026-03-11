@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Message"
+  short_description: "Draft concise conventional commit messages"
+  default_prompt: "Use $commit-message to draft a commit message from the current git changes."
