@@ -17,6 +17,14 @@ claude code and codex cli config files. please feel free to add suggestions!! i 
 - **nia research rules** - integrated nia mcp for external code/docs research and indexing
 - **custom statusline** - git branch, model, and context info
 
+## codex harness features
+
+- **instruction parity** - codex `AGENTS.md` mirrors the current claude workflow rules: bun-first js/ts, assumption surfacing, worktree workflow, post-edit checks, and nia-first research
+- **broad command rules** - codex `rules/default.rules` mirrors the current claude command-family allowlist rather than the older tighter readme wording
+- **skill-based workflow ports** - local skills replace the claude plan agent and the `/commit` and `/merge` commands
+- **manual-use review tools** - local `code-reviewer` and `code-simplifier` skills replace the disabled claude agents without making them implicit
+- **explicit native gaps** - codex does not currently replicate claude's sound notifications, custom statusline scripting, edit-triggered hooks, or swift plugin support in this repo
+
 ## setup
 
 ### 1. environment variables
@@ -66,6 +74,10 @@ ls -la ~/.codex
 ```
 
 if prompted, run `codex` once and complete sign-in. keep your env vars loaded before launching codex so mcp tokens resolve correctly.
+
+this repo targets the newer codex harness layout built around `AGENTS.md`, `rules/`, and `skills/`.
+
+older local codex cli builds may still look for `codex.md` project docs. this repo does not add compatibility shims for that older layout.
 
 ### 3. runpod / docker gpu setup
 
@@ -153,13 +165,19 @@ claude-code/
     merge.md                # /merge - merge worktree branch and clean up
 
 codex/
-  config.toml
-  AGENTS.md
-  instructions.md
+  config.toml              # model, approval, sandbox, and mcp config
+  AGENTS.md                # codex instructions plus local skill inventory
+  instructions.md          # thin pointer back to AGENTS.md
   rules/
-    default.rules
+    default.rules          # mirrored command allow rules
   skills/
-    .system/
+    .system/               # bundled system skills from openai
+    plan/                  # implementation planning skill
+    nia-research/          # nia-first external research skill
+    commit-message/        # commit title generation skill
+    worktree-merge/        # worktree merge and cleanup skill
+    code-reviewer/         # manual-use only review skill
+    code-simplifier/       # manual-use only simplification skill
 
 gpu-setup/
   Dockerfile                # runpod pytorch gpu environment
