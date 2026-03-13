@@ -45,13 +45,14 @@ from the `harness-configs` directory, symlink these to `~/.claude/`:
 
 ```bash
 ln -s $(pwd)/claude-code/config/settings.json ~/.claude/settings.json
-ln -s $(pwd)/claude-code/config/mcp.json ~/.claude/mcp.json
 ln -s $(pwd)/claude-code/config/CLAUDE.md ~/.claude/CLAUDE.md
 ln -s $(pwd)/claude-code/config/statusline-command.sh ~/.claude/statusline-command.sh
 ln -s $(pwd)/claude-code/agents ~/.claude/agents
 ln -s $(pwd)/claude-code/rules ~/.claude/rules
 ln -s $(pwd)/claude-code/commands ~/.claude/commands
 ```
+
+for MCP servers, use `claude-code/config/mcp.json` as a reference template and merge those entries into `~/.claude.json`. the gpu bootstrap script already handles that merge automatically.
 
 ### 2.2 codex cli setup
 
@@ -145,7 +146,7 @@ this installs everything and sets up config. it's idempotent so you can run it a
 claude-code/
   config/
     settings.json           # model, permissions, statusline, hooks (prettier, lint, sounds)
-    mcp.json                # mcp server config (nia, github, etc.)
+    mcp.json                # reference MCP server entries for ~/.claude.json
     CLAUDE.md               # global instructions (style, behavior, principles)
     statusline-command.sh   # custom statusline with git branch, model, context
 

@@ -188,7 +188,7 @@ MCP_PATCH='{"mcpServers":{}}'
 
 if [ -n "${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
     MCP_PATCH=$(echo "$MCP_PATCH" | GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_PERSONAL_ACCESS_TOKEN" \
-        jq '.mcpServers.Github = {
+        jq '.mcpServers.github = {
             "command": "npx",
             "args": ["-y", "@modelcontextprotocol/server-github"],
             "env": {
@@ -216,7 +216,8 @@ else
 fi
 
 # merge patch into existing state (existing keys preserved, mcpServers updated)
-jq -s '.[0] * .[1]' "$CLAUDE_STATE" <(echo "$MCP_PATCH") > "$CLAUDE_STATE.tmp" \
+jq -s '.[0] * .[1] | if .mcpServers.github != null or .mcpServers.Github != null then .mcpServers.github = (.mcpServers.github // .mcpServers.Github) | del(.mcpServers.Github) else del(.mcpServers.Github) end' \
+    "$CLAUDE_STATE" <(echo "$MCP_PATCH") > "$CLAUDE_STATE.tmp" \
     && mv "$CLAUDE_STATE.tmp" "$CLAUDE_STATE"
 chmod 600 "$CLAUDE_STATE"
 echo "  merged mcp config into $CLAUDE_STATE"

@@ -1,8 +1,6 @@
-// this is used for reference only, do not use it in the config/mcp.json file. mcps should go in the ~/.claude.json file.
-
 {
   "mcpServers": {
-    "Github": {
+    "github": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
